@@ -1,0 +1,141 @@
+using System;
+using System.Data;
+using System.Security.AccessControl;
+using System.Text;
+using System.Xml.Schema;
+namespace Xogame;
+
+class Program
+{
+    static int n = 15;
+    static string[,] Caro_Table = new string[n, n];
+    static int player = 1 ;
+    static void Main(string[] arfgs)
+    {
+        Console.InputEncoding = Encoding.Unicode;
+        Console.OutputEncoding = Encoding.Unicode;
+        Console.ForegroundColor = ConsoleColor.Green;
+        //Câu 1: Viết hàm đặt tên là InitCaroTable để tạo 1 mảng 2 chiều đặt tên là caro-table có kích cỡ là n x n (với n = 15):
+        
+        InitCaroTable();
+        DrawTable();
+
+        do 
+        {
+            PlayGame();
+        }
+        while(true);
+    }
+    static void InitCaroTable()
+    {
+        for (int row = 0; row < n; row++)
+        {
+            for (int col = 0; col < n; col++)
+            {
+                if (row == 0)
+                {
+                    if (col < 10)
+                    {
+                        Caro_Table[row, col] = $" {col}";
+                    }
+                    else
+                    {
+                        Caro_Table[row, col] = $"{col}";
+                    }
+                }
+                else if (col == 0)
+                {
+                    if (row < 10)
+                    {
+                        Caro_Table[row, col] = $" {row}";
+                    }
+                    else
+                    {
+                        Caro_Table[row, col] = $"{row}";
+                    }
+                }
+                else
+                {
+                    Caro_Table[row, col] = $"-";
+                }
+            }
+        }
+    }
+
+    static void DrawTable()
+    {
+        Console.Clear();
+        for (int raw = 0; raw < n; raw++)
+        {
+            for (int col = 0; col < n; col++)
+            {
+                switch (Caro_Table[raw,col])
+                    {
+                        case "-":
+                            Console.ForegroundColor = ConsoleColor.White; 
+                            break;
+                        case "x":
+                            Console.ForegroundColor = ConsoleColor.Red; 
+                            break;
+                        case "o":
+                            Console.ForegroundColor = ConsoleColor.Green; 
+                            break;
+                        default:
+                            Console.ForegroundColor = ConsoleColor.Yellow; 
+                            break;
+                    }
+                if (Caro_Table[raw, col] == "-" || Caro_Table[raw, col] == "x"||  Caro_Table[raw, col] == "o")
+                {
+                    Console.Write($"  {Caro_Table[raw, col]} ");
+                }
+                else
+                {
+                    Console.Write($" {Caro_Table[raw, col]} ");
+                }
+                Console.ResetColor();
+                
+            }
+            Console.WriteLine();
+        }
+    }
+    static void PlayGame()
+    {
+        int x ;
+        int y ;
+        if(player ==1)
+            {
+                Console.WriteLine("Player 1 :");
+            }
+            else
+            {   
+                
+                Console.WriteLine("Player 2 :");
+            }
+            do{
+                Console.Write(" Nhap gia tri x = ");
+                x = Convert.ToInt32(Console.ReadLine());
+                Console.Write(" Nhap gia tri y = ");
+                y = Convert.ToInt32(Console.ReadLine());
+                Console.Clear();
+                Console.WriteLine("Invalid Position");
+            }
+            while ( x < 0 || x >=n ||y<0 || y>=n|| Caro_Table[x,y] != "-");
+            if(player == 1 )
+            {
+                Caro_Table[x,y] ="x";
+                player = 2;
+                
+            }
+            else 
+            {
+                Caro_Table[x,y] ="o";
+                player = 1;
+            }
+            
+            DrawTable();  
+    }
+    static void check()
+        {
+            
+        }
+}
